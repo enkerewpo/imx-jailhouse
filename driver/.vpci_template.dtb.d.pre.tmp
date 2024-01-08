@@ -1,0 +1,2 @@
+vpci_template.o: \
+ /opt/nxp/OK8MP-linux-sdk/OK8MP-linux-kernel/extra/jailhouse/driver/vpci_template.dts

@@ -1,0 +1,4 @@
+inmate-zynqmp.o: \
+ /opt/nxp/OK8MP-linux-sdk/OK8MP-linux-kernel/extra/jailhouse/configs/arm64/dts/inmate-zynqmp.dts \
+ scripts/dtc/include-prefixes/dt-bindings/interrupt-controller/arm-gic.h \
+ scripts/dtc/include-prefixes/dt-bindings/interrupt-controller/irq.h

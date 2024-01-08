@@ -1,0 +1,2 @@
+inmate-foundation-v8.o: \
+ /opt/nxp/OK8MP-linux-sdk/OK8MP-linux-kernel/extra/jailhouse/configs/arm64/dts/inmate-foundation-v8.dts

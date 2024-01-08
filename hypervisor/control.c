@@ -621,7 +621,7 @@ static int cell_management_prologue(enum management_task task,
 
 static int cell_start(struct per_cpu *cpu_data, unsigned long id)
 {
-	printk("[wheatfox] in cell_start, id = %d\n", id);
+	printk("[wheatfox] in cell_start, id = %ld\n", id);
 	struct jailhouse_comm_region *comm_region;
 	const struct jailhouse_memory *mem;
 	unsigned int cpu, n;
@@ -670,8 +670,7 @@ static int cell_start(struct per_cpu *cpu_data, unsigned long id)
 	comm_region->pci_mmconfig_base =
 		system_config->platform_info.pci_mmconfig_base;
 
-	printk("[wheatfox] cell->config->console = %d\n", cell->config->console);
-	printk("[wheatfox] system_config->platform_info.pci_mmconfig_base = %d\n", system_config->platform_info.pci_mmconfig_base);
+	printk("[wheatfox] system_config->platform_info.pci_mmconfig_base = %lld\n", system_config->platform_info.pci_mmconfig_base);
 	printk("[wheatfox] finished setting comm_region\n");
 
 	pci_cell_reset(cell);
@@ -701,7 +700,7 @@ static int cell_set_loadable(struct per_cpu *cpu_data, unsigned long id)
 	struct cell *cell;
 	int err;
 
-	printk("[wheatfox] in cell_set_loadable, id = %d\n", id);
+	printk("[wheatfox] in cell_set_loadable, id = %ld\n", id);
 	err = cell_management_prologue(CELL_SET_LOADABLE, cpu_data, id, &cell);
 	if (err)
 		return err;
@@ -961,7 +960,7 @@ static int cpu_get_info(struct per_cpu *cpu_data, unsigned long cpu_id,
  */
 long hypercall(unsigned long code, unsigned long arg1, unsigned long arg2)
 {	
-	printk("[wheatfox] in hypercall, code = %d, arg1 = %d, arg2 = %d\n", code, arg1, arg2);
+	printk("[wheatfox] in hypercall, code = %ld, arg1 = %ld, arg2 = %ld\n", code, arg1, arg2);
 
 	struct per_cpu *cpu_data = this_cpu_data();
 

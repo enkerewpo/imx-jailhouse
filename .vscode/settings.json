@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "*.loongarch": "makefile",
+        "*.S": "loongarch",
+        "*.asm": "loongarch",
+        "mm.h": "c",
+        "slab.h": "c",
+        "workqueue.h": "c",
+        "percpu-refcount.h": "c",
+        "cpu.h": "c"
+    }
+}

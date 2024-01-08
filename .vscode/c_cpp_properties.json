@@ -3,7 +3,9 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "/opt/nxp/OK8MP-linux-sdk/OK8MP-linux-kernel/include",
+                "/opt/nxp/OK8MP-linux-sdk/OK8MP-linux-kernel/arch/arm64/include"
             ],
             "defines": [],
             "compilerPath": "/usr/local/bin/clang",

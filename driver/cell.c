@@ -165,7 +165,7 @@ int jailhouse_cmd_cell_create(struct jailhouse_cell_create __user *arg)
 
 	if (copy_from_user(&cell_params, arg, sizeof(cell_params)))
 		return -EFAULT;
-	pr_info("[wheatfox] (jailhouse_cmd_cell_create) copy_from_user(&cell_params, arg, sizeof(cell_params)) done\n");
+	pr_info("[wheatfox] (jailhouse_cmd_cell_create) copy_from_user done\n");
 
 	config = kmalloc(cell_params.config_size, GFP_USER | __GFP_NOWARN);
 	if (!config)
@@ -176,7 +176,7 @@ int jailhouse_cmd_cell_create(struct jailhouse_cell_create __user *arg)
 		err = -EFAULT;
 		goto kfree_config_out;
 	}
-	pr_info("[wheatfox] (jailhouse_cmd_cell_create) copy_from_user(config, user_config, cell_params.config_size) done\n");
+	pr_info("[wheatfox] (jailhouse_cmd_cell_create) copy_from_user done\n");
 
 	if (cell_params.config_size < sizeof(*config) ||
 	    memcmp(config->signature, JAILHOUSE_CELL_DESC_SIGNATURE,
@@ -208,7 +208,7 @@ int jailhouse_cmd_cell_create(struct jailhouse_cell_create __user *arg)
 	}
 
 	cell_id.id = JAILHOUSE_CELL_ID_UNUSED;
-	pr_info("[wheatfox] (jailhouse_cmd_cell_create) cell_id.id = JAILHOUSE_CELL_ID_UNUSED done\n");
+	pr_info("[wheatfox] (jailhouse_cmd_cell_create) cell_id.id = %d\n", cell_id.id);
 	memcpy(cell_id.name, config->name, sizeof(cell_id.name));
 	if (find_cell(&cell_id) != NULL) {
 		err = -EEXIST;
@@ -317,11 +317,17 @@ static int load_image(struct cell *cell,
 	void *image_mem;
 	int err = 0;
 
+	printk("[wheatfox] (load_image) start\n");
+
 	if (copy_from_user(&image, uimage, sizeof(image)))
 		return -EFAULT;
 
+	printk("[wheatfox] (load_image) copy_from_user done\n");
+
 	if (image.size == 0)
 		return 0;
+
+	printk("[wheatfox] (load_image) image.size = %llx\n", image.size);
 
 	mem = cell->memory_regions;
 	for (regions = cell->num_memory_regions; regions > 0; regions--) {
@@ -331,6 +337,7 @@ static int load_image(struct cell *cell,
 			if (image.size > mem->size - image_offset ||
 			    (mem->flags & MEM_REQ_FLAGS) != MEM_REQ_FLAGS)
 				return -EINVAL;
+			printk("[wheatfox] (load_image) found suitable memory region, mem->virt_start = %llx, mem->size = %llx\n", mem->virt_start, mem->size);
 			break;
 		}
 		mem++;
@@ -338,10 +345,17 @@ static int load_image(struct cell *cell,
 	if (regions == 0)
 		return -EINVAL;
 
+	printk("[wheatfox] (load_image) image load mem region found\n");
+
 	phys_start = (mem->phys_start + image_offset) & PAGE_MASK;
 	page_offs = offset_in_page(image_offset);
 	image_mem = jailhouse_ioremap(phys_start, 0,
 				      PAGE_ALIGN(image.size + page_offs));
+
+	printk("[wheatfox] (load_image) phys_start = %llx\n", phys_start);
+	printk("[wheatfox] (load_image) page_offs = %x\n", page_offs);
+	printk("[wheatfox] (load_image) image_mem = %p\n", image_mem);
+
 	if (!image_mem) {
 		pr_err("jailhouse: Unable to map cell RAM at %08llx "
 		       "for image loading\n",
@@ -349,16 +363,29 @@ static int load_image(struct cell *cell,
 		return -EBUSY;
 	}
 
+	// print copy_from_user params
+	printk("[wheatfox] (load_image) copy_from_user params:\n");
+	// unsigned long copy_from_user (void * to, const void __user * from, unsigned long n);
+	printk("[wheatfox] (load_image) to = %p\n", image_mem + page_offs);
+	printk("[wheatfox] (load_image) from = %p\n", (void __user *)(unsigned long)image.source_address);
+	printk("[wheatfox] (load_image) n = %llx\n", (unsigned long long)image.size);
+	
+	printk("[wheatfox] (load_image) copy_from_user start\n");
 	if (copy_from_user(image_mem + page_offs,
 			   (void __user *)(unsigned long)image.source_address,
 			   image.size))
 		err = -EFAULT;
+
+	printk("[wheatfox] (load_image) copy_from_user done\n");
+
 	/*
 	 * ARMv7 and ARMv8 require to clean D-cache and invalidate I-cache for
 	 * memory containing new instructions. On x86 this is a NOP.
 	 */
 	flush_icache_range((unsigned long)(image_mem + page_offs),
 			   (unsigned long)(image_mem + page_offs) + image.size);
+
+	printk("[wheatfox] (load_image) flush_icache_range done\n");
 #ifdef CONFIG_ARM
 	/*
 	 * ARMv7 requires to flush the written code and data out of D-cache to

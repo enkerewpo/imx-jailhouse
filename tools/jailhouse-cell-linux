@@ -307,6 +307,7 @@ jailhouse cell load %s linux-loader.bin -a 0x%x %s -a 0x%x ' %
 
 class ARMCommon:
     def setup(self, args, config):
+        print('[wheatfox|python] ARMCommon setup')
         self._cpu_reset_address = config.cpu_reset_address
 
         (self.kernel_image,
@@ -315,9 +316,14 @@ class ARMCommon:
         kernel_load_offset = self.get_kernel_offset(self.kernel_image)
         image_size = kernel_load_offset + kernel_size + self.kernel_alignment()
 
+        print('[wheatfox|python] kernel_size=%s' % hex(kernel_size))
+        print('[wheatfox|python] kernel_load_offset=%s' % hex(kernel_load_offset))
+        print('[wheatfox|python] image_size=%s' % hex(image_size))
+
         ramdisk_size = 0
         if args.initrd:
             ramdisk_size = os.fstat(args.initrd.fileno()).st_size
+            print('[wheatfox|python] initrd found, size=%s' % hex(ramdisk_size))
             # leave sufficient space between the kernel and the initrd
             decompression_factor = self.default_decompression_factor()
             if args.kernel_decomp_factor:
@@ -331,6 +337,7 @@ class ARMCommon:
             exit(1)
         # add one page to the DTB size to be safe when extending it
         dtb_size = page_align(os.fstat(args.dtb.fileno()).st_size) + 0x1000
+        print('[wheatfox|python] dtb found, size=%s' % hex(dtb_size))
         image_size += dtb_size
 
         # add some pages in case the region contains the loader
@@ -338,6 +345,7 @@ class ARMCommon:
 
         ram_regions = [region for region in config.memory_regions
                        if region.is_ram() and region.size >= image_size]
+        print('[wheatfox|python] ram_regions=%s' % ram_regions)
         if not ram_regions:
             print('No space found to load all images', file=sys.stderr)
             exit(1)
@@ -350,6 +358,10 @@ class ARMCommon:
                                        self.kernel_alignment())
         self._kernel_addr += kernel_load_offset
         self._ramdisk_addr = self._kernel_addr + kernel_size
+
+        print('[wheatfox|python] dtb_addr=%s' % hex(self._dtb_addr))
+        print('[wheatfox|python] kernel_addr=%s' % hex(self._kernel_addr))
+        print('[wheatfox|python] ramdisk_addr=%s' % hex(self._ramdisk_addr))
 
         self.params = 'kernel=0x%x dtb=0x%x' % (self._kernel_addr,
                                                 self._dtb_addr)

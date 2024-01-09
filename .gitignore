@@ -2,4 +2,3 @@
 *.cmd
 .vscode-ctags
 tmp
-*.tar.gz

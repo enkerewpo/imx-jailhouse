@@ -88,10 +88,10 @@ static void dump_regs(struct trap_context *ctx)
 
 	arm_read_sysreg(ELR_EL2, pc);
 	panic_printk(" pc: %016llx   lr: %016lx spsr: %08llx     EL%lld\n"
-		     " sp: %016llx  esr: %02llx %01llx %07llx\n",
+		     " sp: %016llx  esr: %02llx %01llx %07llx ESR_RAW=%016llx\n",
 		     pc, ctx->regs[30], ctx->spsr, SPSR_EL(ctx->spsr),
 		     ctx->sp, ESR_EC(ctx->esr), ESR_IL(ctx->esr),
-		     ESR_ISS(ctx->esr));
+		     ESR_ISS(ctx->esr), ctx->esr);
 	for (i = 0; i < NUM_USR_REGS - 1; i++)
 		panic_printk("%sx%d: %016lx%s", i < 10 ? " " : "", i,
 			     ctx->regs[i], i % 3 == 2 ? "\n" : "  ");

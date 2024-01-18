@@ -171,8 +171,18 @@ void arch_handle_trap(union registers *guest_regs)
 	if (handler)
 		ret = handler(&ctx);
 
-	if (ret == TRAP_UNHANDLED || ret == TRAP_FORBIDDEN) {
-		panic_printk("\nFATAL: %s (exception class 0x%02llx)\n",
+	if (ret == TRAP_UNHANDLED) {
+		panic_printk("\nFATAL TRAP_UNHANDLED: %s (exception class 0x%02llx)\n",
+			     (ret == TRAP_UNHANDLED ? "unhandled trap" :
+						      "forbidden access"),
+			     ESR_EC(ctx.esr));
+		panic_printk("Cell state before exception:\n");
+		dump_regs(&ctx);
+		panic_park();
+	}
+
+	else if (ret == TRAP_FORBIDDEN) {
+		panic_printk("\nFATAL TRAP_FORBIDDEN: %s (exception class 0x%02llx)\n",
 			     (ret == TRAP_UNHANDLED ? "unhandled trap" :
 						      "forbidden access"),
 			     ESR_EC(ctx.esr));

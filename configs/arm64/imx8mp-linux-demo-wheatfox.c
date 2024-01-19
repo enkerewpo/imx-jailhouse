@@ -91,12 +91,12 @@ struct {
 			.flags = JAILHOUSE_MEM_READ | JAILHOUSE_MEM_WRITE |
 				JAILHOUSE_MEM_IO,
 		},
-		/* SHDC3 */ {
-			.phys_start = 0x30b60000,
-			.virt_start = 0x30b60000,
-			.size = 0x10000,
-			.flags = JAILHOUSE_MEM_READ | JAILHOUSE_MEM_WRITE | JAILHOUSE_MEM_IO | JAILHOUSE_MEM_IO_UNALIGNED | JAILHOUSE_MEM_DMA,
-		},
+		// /* SHDC3 */ {
+		// 	.phys_start = 0x30b60000,
+		// 	.virt_start = 0x30b60000,
+		// 	.size = 0x10000,
+		// 	.flags = JAILHOUSE_MEM_READ | JAILHOUSE_MEM_WRITE | JAILHOUSE_MEM_IO | JAILHOUSE_MEM_IO_UNALIGNED | JAILHOUSE_MEM_DMA,
+		// },
 		/* RAM: Top at 4GB Space */ {
 			.phys_start = 0xfdb00000,
 			.virt_start = 0,

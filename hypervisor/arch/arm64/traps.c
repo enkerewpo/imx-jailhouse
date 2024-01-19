@@ -167,6 +167,7 @@ void arch_handle_trap(union registers *guest_regs)
 
 	fill_trap_context(&ctx, guest_regs);
 
+	// 0x24 is ESR_EC_DABT_LOW
 	handler = trap_handlers[ESR_EC(ctx.esr)];
 	if (handler)
 		ret = handler(&ctx);

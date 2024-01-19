@@ -26,12 +26,17 @@ cp ./configs/arm64/imx8mp-linux-demo-wheatfox.cell $TARGET_DIR/imx8mp-linux-demo
 
 cp ./init.sh $TARGET_DIR/init.sh
 cp ./start-linux.sh $TARGET_DIR/start-linux.sh
+
+# copy /opt/nxp//opt/nxp/OK8MP-linux-sdk/OK8MP-linux-kernel/arch/arm64/boot/dts/freescale/imx8mp-evk-inmate-wheatfox.dtb to kernel/imx8mp-evk-inmate-wheatfox.dtb.1
+echo "updateing kernel/imx8mp-evk-inmate-wheatfox.dtb.1"
+cp /opt/nxp/OK8MP-linux-sdk/OK8MP-linux-kernel/arch/arm64/boot/dts/freescale/imx8mp-evk-inmate-wheatfox.dtb ./kernel/imx8mp-evk-inmate-wheatfox.dtb.1
+
 cp -r ./kernel $TARGET_DIR/
 mv $TARGET_DIR/kernel/imx8mp-evk-inmate-wheatfox.dtb.1 $TARGET_DIR/kernel/imx8mp-evk-inmate-wheatfox.dtb
 
 # then tar gzip the tmp folder into jailhouse-wheatfox.tar.gz
 echo "tar gzip the tmp folder into jailhouse-wheatfox.tar.gz"
-tar -zcvf jailhouse-wheatfox.tar.gz $TARGET_DIR
+tar -zcf jailhouse-wheatfox.tar.gz $TARGET_DIR
 
 # copy the jailhouse-wheatfox.tar.gz to the /var/www/html/
 echo "copy the jailhouse-wheatfox.tar.gz to the /var/www/html/"

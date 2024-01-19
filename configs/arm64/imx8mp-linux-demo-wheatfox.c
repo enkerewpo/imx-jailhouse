@@ -95,8 +95,7 @@ struct {
 			.phys_start = 0x30b60000,
 			.virt_start = 0x30b60000,
 			.size = 0x10000,
-			.flags = JAILHOUSE_MEM_READ | JAILHOUSE_MEM_WRITE |
-				JAILHOUSE_MEM_IO,
+			.flags = JAILHOUSE_MEM_READ | JAILHOUSE_MEM_WRITE | JAILHOUSE_MEM_IO | JAILHOUSE_MEM_IO_UNALIGNED | JAILHOUSE_MEM_DMA,
 		},
 		/* RAM: Top at 4GB Space */ {
 			.phys_start = 0xfdb00000,
@@ -110,9 +109,9 @@ struct {
 			 * We could not use 0x80000000 which conflicts with
 			 * COMM_REGION_BASE
 			 */
-			.phys_start = 0x60000000,
-			.virt_start = 0x60000000,
-			.size = 0x10000000,
+			.phys_start = 0x64000000,
+			.virt_start = 0x64000000,
+			.size = 0x08000000,
 			.flags = JAILHOUSE_MEM_READ | JAILHOUSE_MEM_WRITE |
 				JAILHOUSE_MEM_EXECUTE | JAILHOUSE_MEM_DMA |
 				JAILHOUSE_MEM_LOADABLE,

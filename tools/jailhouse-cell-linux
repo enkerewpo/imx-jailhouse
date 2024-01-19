@@ -870,8 +870,10 @@ else:
     cell.load(arch.kernel_image, arch.kernel_address())
     print('[wheatfox|python] kernel loaded')
     if arch.dtb_address():
+        print('[wheatfox|python] trying to load dtb into cell, addr=%s' % hex(int(arch.dtb_address())))
         cell.load(arch.dtb.get(), arch.dtb_address())
     if args.initrd:
+        print('[wheatfox|python] trying to load initrd into cell, addr=%s' % hex(int(arch.ramdisk_address())))
         cell.load(args.initrd.read(), arch.ramdisk_address())
     cell.load(arch.params, arch.params_address())
     print('[wheatfox|python] trying to start cell')

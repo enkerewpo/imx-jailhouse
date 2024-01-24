@@ -7,6 +7,7 @@
         "slab.h": "c",
         "workqueue.h": "c",
         "percpu-refcount.h": "c",
-        "cpu.h": "c"
+        "cpu.h": "c",
+        "inmate.h": "c"
     }
 }

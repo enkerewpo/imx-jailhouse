@@ -44,6 +44,11 @@ cp ./start-gic.sh $TARGET_DIR/start-gic.sh
 echo "updateing kernel/imx8mp-evk-inmate-wheatfox.dtb.1"
 cp /opt/nxp/OK8MP-linux-sdk/OK8MP-linux-kernel/arch/arm64/boot/dts/freescale/imx8mp-evk-inmate-wheatfox.dtb ./kernel/imx8mp-evk-inmate-wheatfox.dtb.1
 
+echo "backup OK8MP-C-board.dts and dtb"
+cp /opt/nxp/OK8MP-linux-sdk/OK8MP-linux-kernel/arch/arm64/boot/dts/freescale/OK8MP-C-board.dts ./kernel/OK8MP-C-board.dts
+cp /opt/nxp/OK8MP-linux-sdk/OK8MP-linux-kernel/arch/arm64/boot/dts/freescale/OK8MP-C-board.dtb ./kernel/OK8MP-C-board.dtb.1
+# remember you need to build this dts only in SDK folder with 'build.sh kernel' cmd and add the dts to Makefile
+
 # copy the kernel folder
 cp -r ./kernel $TARGET_DIR/
 mv $TARGET_DIR/kernel/imx8mp-evk-inmate-wheatfox.dtb.1 $TARGET_DIR/kernel/imx8mp-evk-inmate-wheatfox.dtb

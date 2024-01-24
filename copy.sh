@@ -42,6 +42,7 @@ cp ./start-gic.sh $TARGET_DIR/start-gic.sh
 
 # copy /opt/nxp//opt/nxp/OK8MP-linux-sdk/OK8MP-linux-kernel/arch/arm64/boot/dts/freescale/imx8mp-evk-inmate-wheatfox.dtb to kernel/imx8mp-evk-inmate-wheatfox.dtb.1
 echo "updateing kernel/imx8mp-evk-inmate-wheatfox.dtb.1"
+cp /opt/nxp/OK8MP-linux-sdk/OK8MP-linux-kernel/arch/arm64/boot/dts/freescale/imx8mp-evk-inmate-wheatfox.dts ./kernel/imx8mp-evk-inmate-wheatfox.dts
 cp /opt/nxp/OK8MP-linux-sdk/OK8MP-linux-kernel/arch/arm64/boot/dts/freescale/imx8mp-evk-inmate-wheatfox.dtb ./kernel/imx8mp-evk-inmate-wheatfox.dtb.1
 
 echo "backup OK8MP-C-board.dts and dtb"

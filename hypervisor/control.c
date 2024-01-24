@@ -960,7 +960,7 @@ static int cpu_get_info(struct per_cpu *cpu_data, unsigned long cpu_id,
  */
 long hypercall(unsigned long code, unsigned long arg1, unsigned long arg2)
 {	
-	printk("[wheatfox] in hypercall, code = %ld, arg1 = %ld, arg2 = %ld\n", code, arg1, arg2);
+	// printk("[wheatfox] in hypercall, code = %ld, arg1 = %ld, arg2 = %ld\n", code, arg1, arg2);
 
 	struct per_cpu *cpu_data = this_cpu_data();
 

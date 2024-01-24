@@ -1,4 +1,4 @@
-./tools/jailhouse cell linux \
+jailhouse cell linux \
 	./imx8mp-linux-demo-wheatfox.cell \
 	/boot/Image \
 	-i ./kernel/rootfs.cpio.gz \

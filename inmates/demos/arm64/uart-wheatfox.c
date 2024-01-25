@@ -126,6 +126,22 @@ static void uart_print(const char *s) {
   printk("[INFO] (uart_print) uart_print done!\n");
 }
 
+/**
+
+[INFO] (dump) in dump start
+[INFO] (dump) UARTx_URXD = 7f
+[INFO] (dump) UARTx_UTXD = 0
+[INFO] (dump) UARTx_UCR1 = 201
+[INFO] (dump) UARTx_UCR2 = 502f
+[INFO] (dump) UARTx_UCR3 = 38c
+[INFO] (dump) UARTx_UCR4 = 4002
+[INFO] (dump) UARTx_UFCR = b01
+[INFO] (dump) UARTx_USR1 = 50
+[INFO] (dump) UARTx_USR2 = 5080
+[INFO] (dump) dump done!
+
+*/
+
 void inmate_main(void) {
   printk("[INFO] (inmate_main) in uart-wheatfox inmate baremetal demo!\n");
 

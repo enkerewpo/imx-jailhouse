@@ -40,26 +40,12 @@ struct {
 			.flags = JAILHOUSE_MEM_READ | JAILHOUSE_MEM_WRITE |
 				JAILHOUSE_MEM_IO | JAILHOUSE_MEM_ROOTSHARED,
 		},
-		/* UART1 */ {
-			.phys_start = 0x30860000,
-			.virt_start = 0x30860000,
-			.size = 0x1000,
-			.flags = JAILHOUSE_MEM_READ | JAILHOUSE_MEM_WRITE |
-				JAILHOUSE_MEM_IO,
-		},
-		/* UART3 */ {
-			.phys_start = 0x30880000,
-			.virt_start = 0x30880000,
-			.size = 0x1000,
-			.flags = JAILHOUSE_MEM_READ | JAILHOUSE_MEM_WRITE |
-				JAILHOUSE_MEM_IO,
-		},
 		/* UART4 */ {
 			.phys_start = 0x30a60000,
 			.virt_start = 0x30a60000,
 			.size = 0x1000,
 			.flags = JAILHOUSE_MEM_READ | JAILHOUSE_MEM_WRITE |
-				JAILHOUSE_MEM_IO | JAILHOUSE_MEM_ROOTSHARED,
+				JAILHOUSE_MEM_IO,
 		},
 		/* RAM */ {
 			.phys_start = 0x63000000,
@@ -76,7 +62,7 @@ struct {
 		},
 	},
 
-	// .irqchips = {
+	.irqchips = {
 	// 	// /* uart2/sdhc1 */ {
 	// 	// 	.address = 0x38800000,
 	// 	// 	.pin_base = 32,
@@ -94,12 +80,12 @@ struct {
 	// 		irq 29 : UART4(irq=38)
 	// 	*/
 
-	// 	/* uart2 */ {
-	// 		.address = 0x38800000,
-	// 		.pin_base = 32,
-	// 		.pin_bitmap = {
-	// 			(1ll << (29 + 32 - 32))
-	// 		},
-	// 	},
-	// },
+		/* uart4 */ {
+			.address = 0x38800000,
+			.pin_base = 40,
+			.pin_bitmap = {
+				(0x1 << (38 + 32 - 40))
+			},
+		},
+	},
 };

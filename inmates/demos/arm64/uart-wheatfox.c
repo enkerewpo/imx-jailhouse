@@ -112,12 +112,13 @@ static void dump() {
 }
 
 static void uart_print(const char *s) {
-  printk("[INFO] (uart_print) in uart_print start, s length = %d\n", strlen(s));
+  printk("[INFO] (uart_print) in uart_print start, s length = %ld\n",
+         strlen(s));
   dump();
   while (*s) {
     // wait until UARTx_USR2[3](TXFE) = 1, which means TX FIFO is empty
     while ((mmio_read32(UARTx_USR2) & 0x8) == 0) {
-      printk("[INFO] (uart_print) UARTx_USR2 = %x\n", mmio_read32(UARTx_USR2));
+      ;
     }
     // write to UARTx_UTXD
     mmio_write32(UARTx_UTXD, *s++);
@@ -126,15 +127,17 @@ static void uart_print(const char *s) {
 }
 
 void inmate_main(void) {
-  printk("[INFO] (inmate_main) in uart-wheatfox inmate baremetal demo!");
+  printk("[INFO] (inmate_main) in uart-wheatfox inmate baremetal demo!\n");
 
   void *UART1_BASE = (void *)0x30860000;
   void *UART3_BASE = (void *)0x30880000;
   void *UART2_BASE = (void *)0x30890000;
   void *UART4_BASE = (void *)0x30a60000;
 
-  printk("[INFO] (inmate_main) trying to init uart on %p...\n", UARTx_BASE);
-  uart_init(UART4_BASE, UART_NO_INIT);
+  void *selected = UART2_BASE;
+
+  printk("[INFO] (inmate_main) trying to init uart on %p...\n", selected);
+  uart_init(selected, UART_NO_INIT);
   printk("[INFO] (inmate_main) uart init done!\n");
 
   printk("[INFO] (inmate_main) trying to print...\n");

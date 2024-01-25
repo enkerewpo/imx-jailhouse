@@ -1,5 +1,4 @@
-jailhouse cell linux \
-	./imx8mp-linux-demo-wheatfox.cell \
+./tools/jailhouse cell linux ./imx8mp-linux-demo-wheatfox.cell \
 	/boot/Image \
 	-i ./kernel/rootfs.cpio.gz \
 	-d ./kernel/imx8mp-evk-inmate-wheatfox.dtb \

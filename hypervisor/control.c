@@ -242,6 +242,7 @@ static void cell_reconfig_completed(void)
  */
 int cell_init(struct cell *cell)
 {
+	printk("[wheatfox] (cell_init) initing cell %s\n", cell->config->name);
 	const unsigned long *config_cpu_set =
 		jailhouse_cell_cpu_set(cell->config);
 	unsigned long cpu_set_size = cell->config->cpu_set_size;
@@ -406,6 +407,7 @@ static void cell_destroy_internal(struct cell *cell)
 
 static int cell_create(struct per_cpu *cpu_data, unsigned long config_address)
 {
+	printk("[wheatfox] (cell_create) config_address = 0x%lx\n", config_address);
 	unsigned long cfg_page_offs = config_address & PAGE_OFFS_MASK;
 	unsigned int cfg_pages, cell_pages, cpu, n;
 	const struct jailhouse_memory *mem;
@@ -436,6 +438,7 @@ static int cell_create(struct per_cpu *cpu_data, unsigned long config_address)
 	}
 
 	cfg = (struct jailhouse_cell_desc *)(cfg_mapping + cfg_page_offs);
+	printk("[wheatfox] (cell_create) cfg->name = %s\n", cfg->name);
 
 	for_each_cell(cell)
 		/*
@@ -456,22 +459,28 @@ static int cell_create(struct per_cpu *cpu_data, unsigned long config_address)
 		goto err_resume;
 	}
 
+	printk("[wheatfox] (cell_create) trying to map cfg pages in hypervisor addr space\n");
 	if (!paging_get_guest_pages(NULL, config_address, cfg_pages,
 				    PAGE_READONLY_FLAGS)) {
 		err = -ENOMEM;
 		goto err_resume;
 	}
-
+	printk("[wheatfox] (cell_create) cfg pages mapped in hypervisor addr space\n");
 	cell_pages = PAGES(sizeof(*cell) + cfg_total_size);
+	printk("[wheatfox] (cell_create) cell_pages = %d\n", cell_pages);
+	printk("[wheatfox] (cell_create) trying to allocate cell pages\n");
 	cell = page_alloc(&mem_pool, cell_pages);
 	if (!cell) {
 		err = -ENOMEM;
 		goto err_resume;
 	}
+	printk("[wheatfox] (cell_create) allocate success, cell at %p\n", cell);
 
 	cell->data_pages = cell_pages;
 	cell->config = ((void *)cell) + sizeof(*cell);
 	memcpy(cell->config, cfg, cfg_total_size);
+
+	printk("[wheatfox] (cell_create) finished copy cfg to cell->config\n");
 
 	err = cell_init(cell);
 	if (err)

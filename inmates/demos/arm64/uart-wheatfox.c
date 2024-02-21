@@ -142,15 +142,32 @@ static void uart_print(const char *s) {
 
 */
 
+static void handle_IRQ(unsigned int irqn) {
+  printk("[INFO] (handle_IRQ) in handle_IRQ, irqn = %d\n", irqn);
+}
+
 void inmate_main(void) {
   printk("[INFO] (inmate_main) in uart-wheatfox inmate baremetal demo!\n");
+
+  // enable MMU
+  printk("[INFO] (inmate_main) enabling MMU...\n");
+  arch_mmu_enable();
+  printk("[INFO] (inmate_main) MMU enabled!\n");
+  irq_init(handle_IRQ);
+
+  // memtest(MEM_BASE, MEM_SIZE);
 
   void *UART1_BASE = (void *)0x30860000;
   void *UART3_BASE = (void *)0x30880000;
   void *UART2_BASE = (void *)0x30890000;
   void *UART4_BASE = (void *)0x30a60000;
 
-  void *selected = UART2_BASE;
+  void *selected = UART4_BASE;
+  // map UART4 region
+  printk("[INFO] (inmate_main) trying to map %p, size = %lld to uncached...\n",
+         UART4_BASE, PAGE_SIZE);
+  map_range(UART4_BASE, PAGE_SIZE, MAP_UNCACHED);
+  printk("[INFO] (inmate_main) map done!\n");
 
   printk("[INFO] (inmate_main) trying to init uart on %p...\n", selected);
   uart_init(selected, UART_NO_INIT);

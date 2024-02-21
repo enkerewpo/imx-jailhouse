@@ -577,6 +577,7 @@ void *paging_get_guest_pages(const struct guest_paging_structures *pg_structs,
 	unsigned long phys, gphys, page_virt = TEMPORARY_MAPPING_BASE;
 	int err;
 
+	printk("[wheatfox] (paging_get_guest_pages) gaddr = 0x%lx, num = %d, flags = 0x%lx\n", gaddr, num, flags);
 	if (num > NUM_TEMPORARY_PAGES)
 		return NULL;
 	while (num-- > 0) {
@@ -598,6 +599,7 @@ void *paging_get_guest_pages(const struct guest_paging_structures *pg_structs,
 		gaddr += PAGE_SIZE;
 		page_virt += PAGE_SIZE;
 	}
+	printk("[wheatfox] (paging_get_guest_pages) finished, page_virt = 0x%lx\n", page_virt);
 	return (void *)TEMPORARY_MAPPING_BASE;
 }
 

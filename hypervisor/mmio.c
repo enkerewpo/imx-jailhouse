@@ -28,6 +28,7 @@
  */
 int mmio_cell_init(struct cell *cell)
 {
+	printk("[wheatfox] (mmio_cell_init) in mmio_cell_init\n");
 	const struct jailhouse_memory *mem;
 	const struct unit *unit;
 	unsigned int n;
@@ -37,9 +38,15 @@ int mmio_cell_init(struct cell *cell)
 	for_each_unit(unit)
 		cell->max_mmio_regions += unit->mmio_count_regions(cell);
 
-	for_each_mem_region(mem, cell->config, n)
-		if (JAILHOUSE_MEMORY_IS_SUBPAGE(mem))
+	for_each_mem_region(mem, cell->config, n) {
+		printk("[wheatfox] (mmio_cell_init) processing mem region %d, paddr = 0x%llx, vaddr = 0x%llx, size = 0x%llx\n",
+		       n, mem->phys_start, mem->virt_start, mem->size);
+		if (JAILHOUSE_MEMORY_IS_SUBPAGE(mem)) {
 			cell->max_mmio_regions++;
+			printk("[wheatfox] (mmio_cell_init) this is a subpage, max_mmio_regions = %d\n",
+			       cell->max_mmio_regions);
+		}
+	}
 
 	pages = page_alloc(&mem_pool,
 			   PAGES(cell->max_mmio_regions *
@@ -52,6 +59,7 @@ int mmio_cell_init(struct cell *cell)
 	cell->mmio_handlers = pages +
 		cell->max_mmio_regions * sizeof(struct mmio_region_location);
 
+	printk("[wheatfox] (mmio_cell_init) finished mmio_cell_init\n");
 	return 0;
 }
 

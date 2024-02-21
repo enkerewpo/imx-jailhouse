@@ -134,7 +134,7 @@
 				compatible = "fsl,imx8mp-uart", "fsl,imx6q-uart";
 				reg = <0x30a60000 0x10000>;
 				interrupts = <GIC_SPI 29 IRQ_TYPE_LEVEL_HIGH>;
-				status = "disabled";
+				status = "okay";
 			};
 
 			usdhc3: mmc@30b60000 {

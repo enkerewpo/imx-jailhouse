@@ -8,6 +8,13 @@
         "workqueue.h": "c",
         "percpu-refcount.h": "c",
         "cpu.h": "c",
-        "inmate.h": "c"
+        "inmate.h": "c",
+        "processor.h": "c",
+        "hw_breakpoint.h": "c",
+        "cpufeature.h": "c",
+        "jump_label.h": "c",
+        "bug.h": "c",
+        "printk.h": "c",
+        "regs.h": "c"
     }
 }

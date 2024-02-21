@@ -80,14 +80,14 @@ struct {
 		/* UART2 earlycon */ {
 			.phys_start = 0x30890000,
 			.virt_start = 0x30890000,
-			.size = 0x1000,
+			.size = 0x10000,
 			.flags = JAILHOUSE_MEM_READ | JAILHOUSE_MEM_WRITE |
 				JAILHOUSE_MEM_IO | JAILHOUSE_MEM_ROOTSHARED,
 		},
 		/* UART4 */ {
 			.phys_start = 0x30a60000,
 			.virt_start = 0x30a60000,
-			.size = 0x1000,
+			.size = 0x10000,
 			.flags = JAILHOUSE_MEM_READ | JAILHOUSE_MEM_WRITE |
 				JAILHOUSE_MEM_IO,
 		},

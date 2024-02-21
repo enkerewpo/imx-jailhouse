@@ -139,7 +139,7 @@
 
 			usdhc3: mmc@30b60000 {
 				compatible = "fsl,imx8mm-usdhc", "fsl,imx7d-usdhc";
-				reg = <0x30b60000 0x10000>;
+				reg = <0x30b60000 0x10000>;	
 				interrupts = <GIC_SPI 24 IRQ_TYPE_LEVEL_HIGH>;
 				fsl,tuning-start-tap = <20>;
 				fsl,tuning-step= <2>;

@@ -22,13 +22,13 @@ struct {
 	struct jailhouse_cell_desc cell;
 	__u64 cpus[1];
 	struct jailhouse_memory mem_regions[15];
-	struct jailhouse_irqchip irqchips[2];
+	struct jailhouse_irqchip irqchips[3];
 	struct jailhouse_pci_device pci_devices[2];
 } __attribute__((packed)) config = {
 	.cell = {
 		.signature = JAILHOUSE_CELL_DESC_SIGNATURE,
 		.revision = JAILHOUSE_CONFIG_REVISION,
-		.name = "linux-inmate-demo",
+		.name = "linux-inmate-demo-wheatfox",
 		.flags = JAILHOUSE_CELL_PASSIVE_COMMREG,
 
 		.cpu_set_size = sizeof(config.cpus),
@@ -89,7 +89,7 @@ struct {
 			.virt_start = 0x30a60000,
 			.size = 0x10000,
 			.flags = JAILHOUSE_MEM_READ | JAILHOUSE_MEM_WRITE |
-				JAILHOUSE_MEM_IO,
+				JAILHOUSE_MEM_IO | JAILHOUSE_MEM_IO_UNALIGNED,
 		},
 		// /* SHDC3 */ {
 		// 	.phys_start = 0x30b60000,
@@ -130,6 +130,13 @@ struct {
 			.pin_base = 32,
 			.pin_bitmap = {
 				(1 << (24 + 32 - 32)) | (1 << (29 + 32 - 32))
+			},
+		},
+		{
+			.address = 0x38800000,
+			.pin_base = 64,
+			.pin_bitmap = {
+				(1 << (38 + 32 - 64))
 			},
 		},
 		/* IVSHMEM */ {
